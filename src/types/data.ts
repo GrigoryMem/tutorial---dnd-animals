@@ -1,3 +1,10 @@
+export type ImageData = {
+  src:string,
+  width:number,
+  height:number
+}
+
+
 // типизация тени животного
 type DropData = {
   src:string,
@@ -6,13 +13,10 @@ type DropData = {
 }
 
 // типизация одного животного
-type AnimalData = {
-  src:string,
+type AnimalData = ImageData & {
   x:number,
   y:number,
   glow:string,
-  width:number,
-  height:number,
   drop:DropData
 }
 

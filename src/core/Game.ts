@@ -4,17 +4,22 @@ import { dataBackground, dataAnimals } from '../sources';
 
 export default class Game {
   constructor(images) {
+    // Создается сцена (stage) с заданными размерами.
     var stage:Stage = new Konva.Stage({
       container: 'app',
       width: dataBackground.width,
       height: dataBackground.height,
     });
+    // Создаются два слоя: background для
+    //  фона и animalLayer для животных и их контуров.
     var background = new Konva.Layer();
     var animalLayer = new Konva.Layer();
     var animalShapes = [];
     var score = 3;
 
     // image positions
+    // Определяются позиции животных 
+    // (animals) и их контуров (outlines).
     var animals = {
       snake: {
         x: 10,  
@@ -56,7 +61,7 @@ export default class Game {
     // create draggable animals
     for (var key in animals) {
       // anonymous function to induce scope
-      (function () {
+      (function (that) {
         var privKey = key;
         var anim = animals[key];
 
@@ -78,7 +83,7 @@ export default class Game {
          */
         animal.on('dragend', function () {
           var outline = outlines[privKey + '_black'];
-          if (!animal.inRightPlace && this.isNearOutline(animal, outline)) {
+          if (!animal.inRightPlace && that.isNearOutline(animal, outline)) {
             animal.position({
               x: outline.x,
               y: outline.y,
@@ -87,7 +92,7 @@ export default class Game {
 
             if (++score >= 4) {
               var text = 'You win! Enjoy your booty!';
-              this.drawBackground(background, images.beach, text);
+              that.drawBackground(background, images.beach, text);
             }
 
             // disable drag and drop
@@ -113,7 +118,7 @@ export default class Game {
 
         animalLayer.add(animal);
         animalShapes.push(animal);
-      })();
+      })(this);
     }
 
     // create animal outlines
@@ -125,6 +130,7 @@ export default class Game {
 
         var outline = new Konva.Image({
           image: imageObj,
+
           x: out.x,
           y: out.y,
           width: dataAnimals.ant.width,
