@@ -1,3 +1,5 @@
+import {AnimalImageElements} from './image'
+
 export type ImageData = {
   src:string,
   width:number,
@@ -23,4 +25,12 @@ type AnimalData = ImageData & {
 // типизация набора животных
 export type AnimalsData = {
   [key: string]: Readonly<AnimalData>
+}
+
+
+export type AnimalWithImages = AnimalData & AnimalImageElements 
+
+export type AnimalsWithImages = {
+  [key:string]: AnimalWithImages
+
 }

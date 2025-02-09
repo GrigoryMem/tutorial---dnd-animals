@@ -1,78 +1,42 @@
-import Konva from 'konva';
-import { dataBackground, dataAnimals } from '../sources';
+import KonvaFactory from '../factories/KonvaFactory';
+import { Stage } from 'konva/lib/Stage';
+import { Layer } from 'konva/lib/Layer';
+import { AnimalWithImages, AnimalsWithImages } from '../types/data';
+import { Image } from 'konva/lib/shapes/Image';
 
 
 export default class Game {
-  constructor(images) {
+  constructor(
+    private readonly konvaFactory: KonvaFactory,
+    private readonly animalsWithImages: AnimalsWithImages, 
+    private readonly backgroundImage: HTMLImageElement) {
     // Создается сцена (stage) с заданными размерами.
-    var stage:Stage = new Konva.Stage({
-      container: 'app',
-      width: dataBackground.width,
-      height: dataBackground.height,
-    });
+   let stage:Stage = this.konvaFactory.createStage();
     // Создаются два слоя: background для
     //  фона и animalLayer для животных и их контуров.
-    var background = new Konva.Layer();
-    var animalLayer = new Konva.Layer();
-    var animalShapes = [];
+    let backgroundLayer:Layer = this.konvaFactory.createLayer();
+    let animalDropLayer:Layer = this.konvaFactory.createLayer();
+    let animalLayer:Layer = this.konvaFactory.createLayer();
+    
+    stage.add(backgroundLayer);
+    stage.add(animalDropLayer);
+    stage.add(animalLayer);
+   
     var score = 3;
 
     // image positions
     // Определяются позиции животных 
     // (animals) и их контуров (outlines).
-    var animals = {
-      snake: {
-        x: 10,  
-        y: 70,
-      },
-      giraffe: {
-        x: 90,
-        y: 70,
-      },
-      monkey: {
-        x: 275,
-        y: 70,
-      },
-      lion: {
-        x:400,
-        y: 70,
-      },
-    };
-
-    var outlines = {
-      snake_black: {
-        x: 275,
-        y: 350,
-      },
-      giraffe_black: {
-        x: 390,
-        y: 250,
-      },
-      monkey_black: {
-        x: 300,
-        y: 420,
-      },
-      lion_black: {
-        x:  dataAnimals.ant.drop.x,
-        y: dataAnimals.ant.drop.y,
-      },
-    };
+  
 
     // create draggable animals
-    for (var key in animals) {
+    for (let animalName in this.animalsWithImages) {
       // anonymous function to induce scope
       (function (that) {
-        var privKey = key;
-        var anim = animals[key];
+        let  anim:AnimalWithImages = that.animalsWithImages[animalName];
 
-        var animal = new Konva.Image({
-          image: images[key],
-          x: anim.x,
-          y: anim.y,
-          draggable: true,
-          width: dataAnimals.ant.width,
-          height: dataAnimals.ant.height,
-        });
+        let animal:Image = that.konvaFactory.createImage(anim);
+      
 
         animal.on('dragstart', function () {
           this.moveToTop();
@@ -82,17 +46,17 @@ export default class Game {
          * snap into place if it is
          */
         animal.on('dragend', function () {
-          var outline = outlines[privKey + '_black'];
-          if (!animal.inRightPlace && that.isNearOutline(animal, outline)) {
+         
+          if (!animal.inRightPlace && that.isNearOutline(animal, anim.drop)) {
             animal.position({
-              x: outline.x,
-              y: outline.y,
+              x:  anim.drop.x,
+              y:  anim.drop.y,
             });
             animal.inRightPlace = true;
 
             if (++score >= 4) {
               var text = 'You win! Enjoy your booty!';
-              that.drawBackground(background, images.beach, text);
+              that.drawBackground(backgroundLayer, that.backgroundImage, text);
             }
 
             // disable drag and drop
@@ -103,12 +67,12 @@ export default class Game {
         });
         // make animal glow on mouseover
         animal.on('mouseover', function () {
-          animal.image(images[privKey + '_glow']);
+          animal.image(anim.images.glow);
           document.body.style.cursor = 'pointer';
         });
         // return animal on mouseout
         animal.on('mouseout', function () {
-          animal.image(images[privKey]);
+          animal.image(anim.images.origin);
           document.body.style.cursor = 'default';
         });
 
@@ -116,38 +80,21 @@ export default class Game {
           document.body.style.cursor = 'pointer';
         });
 
+        
+       let outline:Image = that.konvaFactory.createDropImage(anim);
+
+        animalDropLayer.add(outline);
         animalLayer.add(animal);
-        animalShapes.push(animal);
+     
       })(this);
     }
-
-    // create animal outlines
-    for (var key in outlines) {
-      // anonymous function to induce scope
-      (function () {
-        var imageObj = images[key];
-        var out = outlines[key];
-
-        var outline = new Konva.Image({
-          image: imageObj,
-
-          x: out.x,
-          y: out.y,
-          width: dataAnimals.ant.width,
-          height: dataAnimals.ant.height,
-        }); 
-
-        animalLayer.add(outline);
-      })();
-    }
-
-    stage.add(background);
-    stage.add(animalLayer);
+    
+    
 
   this.drawBackground(
-      background,
-      images.beach,
-      'Ahoy! Put the animals on the beach!'
+    backgroundLayer,
+    this.backgroundImage,
+    'Ahoy! Put the animals on the beach!'
     );
   }
 

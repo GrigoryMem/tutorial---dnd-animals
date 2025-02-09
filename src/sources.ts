@@ -22,28 +22,28 @@ const dataAnimals:AnimalsData = {
   },
  lizard:{
   src:'lizard.png',
-  x:0,
-  y:0,
+  x:50,
+  y:50,
   glow:'lizard-glow.png',
-  width:90,
-  height:100,
+  width:155,
+  height:185,
   drop:{
     src:'lizard-drop.png',
-    x:100,
-    y:100,
+    x:285,
+    y:105,
   }
  },
  dragonfly:{
   src:"dragonfly.png",
-  x:0,
-  y:0,
+  x:20,
+  y:20,
   glow:"dragonfly-glow.png",
   width:100,
-  height:100,
+  height:140,
   drop:{
     src:"dragonfly-drop.png",
-    x:90,
-    y:90,
+    x:185,
+    y:6,
   }
  }
 }
