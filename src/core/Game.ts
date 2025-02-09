@@ -36,7 +36,7 @@ export default class Game {
         let  anim:AnimalWithImages = that.animalsWithImages[animalName];
 
         let animal:Image = that.konvaFactory.createImage(anim);
-      
+        let animalDropImage:Image = that.konvaFactory.createDropImage(anim);
 
         animal.on('dragstart', function () {
           this.moveToTop();
@@ -47,10 +47,10 @@ export default class Game {
          */
         animal.on('dragend', function () {
          
-          if (!animal.inRightPlace && that.isNearOutline(animal, anim.drop)) {
+          if (!animal.inRightPlace && that.isNearOutline(animal, animalDropImage)) {
             animal.position({
-              x:  anim.drop.x,
-              y:  anim.drop.y,
+              x:  animalDropImage.x(),
+              y:  animalDropImage.y(),
             });
             animal.inRightPlace = true;
 
@@ -81,7 +81,7 @@ export default class Game {
         });
 
         
-       let outline:Image = that.konvaFactory.createDropImage(anim);
+      
 
         animalDropLayer.add(outline);
         animalLayer.add(animal);
@@ -98,17 +98,14 @@ export default class Game {
     );
   }
 
-   isNearOutline(animal, outline) {
-    var a = animal;
-    var o = outline;
-    var ax = a.x();
-    var ay = a.y();
+   isNearOutline(animal: Image, animalDropImage: Image):boolean {
+    const a: Image = animal;
+    const o: Image = animalDropImage;
+    const ax: number = a.x();
+    const ay: number = a.y();
 
-    if (ax > o.x - 20 && ax < o.x + 20 && ay > o.y - 20 && ay < o.y + 20) {
-      return true;
-    } else {
-      return false;
-    }
+    return ax > o.x() - 20 && ax < o.x() + 20 && ay > o.y() - 20 && ay < o.y() + 20
+    
   }
    drawBackground(background, beachImg, text) {
     var context = background.getContext();

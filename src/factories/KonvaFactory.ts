@@ -4,6 +4,7 @@ import { Stage } from 'konva/lib/Stage';
 import { AnimalWithImage, AnimalWithImages, AnimalsWithImages } from '../types/data'; 
 import { Image } from 'konva/lib/shapes/Image';
 import { randomInterval } from '../helpers/randominterval';
+
 export default class KonvaFactory {
   constructor( 
     private readonly width:number,
