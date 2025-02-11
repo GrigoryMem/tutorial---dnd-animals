@@ -3,6 +3,7 @@ import ImageLoaderService from '../services/imageLoaderService';
 import { AnimalPromiseImages } from '../types/image';
 import { AnimalsData, AnimalsWithImages, ImageData } from '../types/data';
 import KonvaFactory from '../factories/konvaFactory';
+import CanvasSizeService from '../services/canvasSizeService';
 
 export default class GameBuilder {
   private backgroundImage: Promise<HTMLImageElement> | null = null; 
@@ -62,13 +63,8 @@ export default class GameBuilder {
       }
 
     }
-    // let sources = {
-    //   beach: backgroundImage,
-    //   lion: await this.animalImages['ant'].origin,
-    //   lion_glow: await this.animalImages['ant'].glow,
-    //   lion_black: await this.animalImages['ant'].drop,
-    // }
-    const konvaFactory: KonvaFactory = new KonvaFactory(backgroundImage.width, backgroundImage.height);
+    const canvasSizeService: CanvasSizeService = new CanvasSizeService(window.innerWidth,window.innerHeight,backgroundImage.width, backgroundImage.height)
+    const konvaFactory: KonvaFactory = new KonvaFactory(canvasSizeService);
 
   return new Game(konvaFactory, animalsWithImages, backgroundImage);
   

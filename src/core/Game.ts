@@ -3,7 +3,10 @@ import { Stage } from 'konva/lib/Stage';
 import { Layer } from 'konva/lib/Layer';
 import { AnimalWithImages, AnimalsWithImages } from '../types/data';
 import { Image } from 'konva/lib/shapes/Image';
-
+import CursorManager from '../helpers/cursorManager';
+// import cursorManager from '../helpers/cursorManager';
+// import cursorManager from '../helpers/cursorManager';
+// import { CursorManager } from '../helpers/cursorManager'
 
 export default class Game {
   constructor(
@@ -21,7 +24,9 @@ export default class Game {
     stage.add(backgroundLayer);
     stage.add(animalDropLayer);
     stage.add(animalLayer);
-   
+
+    backgroundLayer.add(this.konvaFactory.createBackgroundImage(this.backgroundImage))
+
     var score = 3;
 
     // image positions
@@ -55,8 +60,7 @@ export default class Game {
             animal.inRightPlace = true;
 
             if (++score >= 4) {
-              var text = 'You win! Enjoy your booty!';
-              that.drawBackground(backgroundLayer, that.backgroundImage, text);
+              alert('You win! Enjoy your booty!');
             }
 
             // disable drag and drop
@@ -68,22 +72,26 @@ export default class Game {
         // make animal glow on mouseover
         animal.on('mouseover', function () {
           animal.image(anim.images.glow);
-          document.body.style.cursor = 'pointer';
+          // document.body.style.cursor = 'pointer';
+          CursorManager.setPointCursor();
+        
         });
         // return animal on mouseout
         animal.on('mouseout', function () {
           animal.image(anim.images.origin);
-          document.body.style.cursor = 'default';
+          // document.body.style.cursor = 'default';
+          CursorManager.setDefaultCursor();
         });
 
         animal.on('dragmove', function () {
-          document.body.style.cursor = 'pointer';
+          // document.body.style.cursor = 'pointer';
+          CursorManager.setPointCursor();
         });
 
         
       
 
-        animalDropLayer.add(outline);
+        animalDropLayer.add(animalDropImage);
         animalLayer.add(animal);
      
       })(this);
@@ -91,11 +99,7 @@ export default class Game {
     
     
 
-  this.drawBackground(
-    backgroundLayer,
-    this.backgroundImage,
-    'Ahoy! Put the animals on the beach!'
-    );
+  
   }
 
    isNearOutline(animal: Image, animalDropImage: Image):boolean {
@@ -107,12 +111,5 @@ export default class Game {
     return ax > o.x() - 20 && ax < o.x() + 20 && ay > o.y() - 20 && ay < o.y() + 20
     
   }
-   drawBackground(background, beachImg, text) {
-    var context = background.getContext();
-    context.drawImage(beachImg, 0, 0);
-    context.setAttr('font', '20pt Calibri');
-    context.setAttr('textAlign', 'center');
-    context.setAttr('fillStyle', 'white');
-    context.fillText(text, background.getStage().width() / 2, 40);
-  }
+
 }

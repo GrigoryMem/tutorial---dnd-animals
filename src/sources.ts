@@ -16,7 +16,7 @@ const dataAnimals:AnimalsData = {
     height:130,
     drop:{
       src:'Ant-drop.png',
-      x:105,
+      x:120,
       y:82,
     }
   },
@@ -29,7 +29,7 @@ const dataAnimals:AnimalsData = {
   height:185,
   drop:{
     src:'lizard-drop.png',
-    x:285,
+    x:320,
     y:105,
   }
  },
@@ -42,7 +42,7 @@ const dataAnimals:AnimalsData = {
   height:140,
   drop:{
     src:"dragonfly-drop.png",
-    x:185,
+    x:205,
     y:6,
   }
  }
