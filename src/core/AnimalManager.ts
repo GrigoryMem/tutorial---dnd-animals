@@ -66,7 +66,7 @@ export default class AnimalManager {
 
   onDragMove():void{
     // document.body.style.cursor = 'pointer';
-    CursorManager.setPointCursor();
+    CursorManager.setGrabbingCursor();
   }
   
 

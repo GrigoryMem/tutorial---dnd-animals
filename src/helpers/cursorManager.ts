@@ -3,11 +3,14 @@ class CursorManager {
     private readonly element:HTMLElement,
 
   ){}
-  setPointCursor():void{
+  setPointCursor():void {
     this.element.style.cursor = 'pointer';
   }
-  setDefaultCursor():void{
+  setDefaultCursor():void {
     this.element.style.cursor = 'default';
+  }
+  setGrabbingCursor():void {
+    this.element.style.cursor = 'grabbing';
   }
 }
 
