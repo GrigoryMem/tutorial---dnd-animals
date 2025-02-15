@@ -8,7 +8,8 @@ import CanvasSizeService from '../services/canvasSizeService';
 
 export default class KonvaFactory {
   constructor( 
-    private readonly sizeService: CanvasSizeService) {
+    private readonly sizeService: CanvasSizeService,
+    private readonly backgroundImage: HTMLImageElement) {
   }
   createStage():Stage {
     return new Konva.Stage({
@@ -28,8 +29,8 @@ export default class KonvaFactory {
 
     return new Konva.Image({
       image: animal.images.origin,
-      x: randomInterval(0,this.sizeService.getWidth() - animal.width),
-      y: randomInterval(0, this.sizeService.getHeight() - animal.height),
+      x: randomInterval(0,this.sizeService.getWidth() - width),
+      y: randomInterval(0, this.sizeService.getHeight() - height),
       draggable: true,
       width,
       height,
@@ -52,9 +53,9 @@ export default class KonvaFactory {
     });
   }
 
-  createBackgroundImage(backgroundImage:HTMLImageElement):Image {
+  createBackgroundImage():Image {
     return new Konva.Image({
-      image: backgroundImage,
+      image: this.backgroundImage,
       width: this.sizeService.getWidth(),
       height:this.sizeService.getHeight(),
     });
