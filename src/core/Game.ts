@@ -25,7 +25,7 @@ export default class Game implements AnimalEventObserver {
     stage.add(animalDropLayer);
     stage.add(animalLayer);
 
-    backgroundLayer.add(this.konvaFactory.createBackgroundImage(this.backgroundImage))
+    backgroundLayer.add(this.konvaFactory.createBackgroundImage())
 
 
 
@@ -43,13 +43,14 @@ export default class Game implements AnimalEventObserver {
         const  konvaAnimal:Image = this.konvaFactory.createImage(animalData);
         const  konvaAnimalDrop:Image = this.konvaFactory.createDropImage(animalData);
 
-        new AnimalManager(
+        const animalManager:AnimalManager = new AnimalManager(
           konvaAnimal, 
           konvaAnimalDrop,
-          this.onChangeScore.bind(this),
           animalData.images.origin,
           animalData.images.glow,
          );
+          // почему подписка тут?
+         animalManager.subscribe(this)
 
         animalDropLayer.add(konvaAnimalDrop);
         animalLayer.add(konvaAnimal);

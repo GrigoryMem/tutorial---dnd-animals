@@ -14,7 +14,7 @@ export default class AnimalManager implements AnimalEventSubject {
   constructor(
     private readonly konvaAnimal: Image, 
     private readonly konvaAnimalDrop: Image,
-    private readonly onDropSuccess:Function,
+    
     imageOrigin: HTMLImageElement,
     imageGlow: HTMLImageElement,
     ) {
@@ -49,11 +49,12 @@ export default class AnimalManager implements AnimalEventSubject {
         x:  this.konvaAnimalDrop.x(),
         y:  this.konvaAnimalDrop.y(),
       });
-    // disable drag and drop
-      setTimeout(()=>{
-        this.konvaAnimal.draggable(false);
-        this.onDropSuccess()
-      }, 0);
+      // прекратить перетаскивание
+      this.konvaAnimal.draggable(false);
+    // при успешном попадании в паз
+      this.notifyObservers(EAnimalEvents.DRAG_END,{success:true})
+  
+      
     }
   
 
@@ -99,9 +100,13 @@ export default class AnimalManager implements AnimalEventSubject {
 // cache() запоминает изображение, чтобы не перерисовывать его каждый раз.
 // drawHitFromCache() делает хитбокс четким, чтобы Konva быстрее понимал, когда мышь касается изображения.
   }
- // notifyObservers() - вызывает обратные вызовы наблюдателей, когда происходит изменение состояния.
+  // паттерн Observer
+ // оповещение наблюдателей
   notifyObservers(eventType: EAnimalEvents, data?: any): void {
-    
+    this.observers.forEach((o:AnimalEventObserver)=>{
+      o.update(eventType,data)
+
+    })
   }
   // подписка наблюдателй
   subscribe(observer:AnimalEventObserver):void {
