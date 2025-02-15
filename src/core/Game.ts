@@ -38,28 +38,14 @@ export default class Game {
     // create draggable animals
     for (let animalName in this.animalsWithImages) {
       // anonymous function to induce scope
-      (function (that) {
-        let  anim:AnimalWithImages = that.animalsWithImages[animalName];
-
-        let konvaAnimal:Image = that.konvaFactory.createImage(anim);
-        let konvaAnimalDrop:Image = that.konvaFactory.createDropImage(anim);
-
-        new AnimalManager(konvaAnimal, konvaAnimalDrop);
-
-        
-      
-
-        animalDropLayer.add(animalDropImage);
-        animalLayer.add(animal);
-     
-      })(this);
-    }
     
-    
+        const   animalData:AnimalWithImages = this.animalsWithImages[animalName];
+        const  konvaAnimal:Image = this.konvaFactory.createImage(anim);
+        const  konvaAnimalDrop:Image = this.konvaFactory.createDropImage(anim);
 
-  
+        new AnimalManager(konvaAnimal, konvaAnimalDrop,animalData.images);
+        animalDropLayer.add(konvaAnimalDrop);
+        animalLayer.add(konvaAnimal);
+     }
   }
-
- 
-
 }
