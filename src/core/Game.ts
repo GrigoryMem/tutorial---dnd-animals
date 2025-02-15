@@ -10,6 +10,7 @@ import AnimalManager from './animalManager';
 // import { CursorManager } from '../helpers/cursorManager'
 
 export default class Game {
+  private score = 0;
   constructor(
     private readonly konvaFactory: KonvaFactory,
     private readonly animalsWithImages: AnimalsWithImages, 
@@ -28,24 +29,38 @@ export default class Game {
 
     backgroundLayer.add(this.konvaFactory.createBackgroundImage(this.backgroundImage))
 
-    var score = 3;
+
 
     // image positions
     // Определяются позиции животных 
     // (animals) и их контуров (outlines).
   
-
+    //вычисляем score
+    this.score = Object.keys(this.animalsWithImages).length
     // create draggable animals
     for (let animalName in this.animalsWithImages) {
       // anonymous function to induce scope
     
         const   animalData:AnimalWithImages = this.animalsWithImages[animalName];
-        const  konvaAnimal:Image = this.konvaFactory.createImage(anim);
-        const  konvaAnimalDrop:Image = this.konvaFactory.createDropImage(anim);
+        const  konvaAnimal:Image = this.konvaFactory.createImage(animalData);
+        const  konvaAnimalDrop:Image = this.konvaFactory.createDropImage(animalData);
 
-        new AnimalManager(konvaAnimal, konvaAnimalDrop,animalData.images);
+        new AnimalManager(
+          konvaAnimal, 
+          konvaAnimalDrop,
+          this.onChangeScore.bind(this),
+          animalData.images,
+         );
+
         animalDropLayer.add(konvaAnimalDrop);
         animalLayer.add(konvaAnimal);
      }
+  }
+
+  onChangeScore(): void {
+    if(--this.score!==0){
+      return
+    }
+    alert('You win! Enjoy the game!');  
   }
 }
