@@ -1,5 +1,9 @@
 import {AnimalImageElements} from './image'
 
+export type SoundsData = {
+  [trackName:string]:string
+}
+
 export type ImageData = {
   src:string,
   width:number,
