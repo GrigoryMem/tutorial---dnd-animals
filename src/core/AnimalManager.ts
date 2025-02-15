@@ -1,18 +1,19 @@
 import { Image } from "konva/lib/shapes/Image";
 import CursorManager from '../helpers/cursorManager';
 import { AnimalImageElements } from "../types/image";
+// AnimalManager контролирует движение, 
+//проверяет правильное размещение и управляет курсором.
 // По сути, код делает так, чтобы пользователь перетаскивал животное 
 // в правильную зону, а при наведении
 //  и уходе менялись изображения (например, светящийся эффект).
-// AnimalManager контролирует движение, 
-//проверяет правильное размещение и управляет курсором.
+
 export default class AnimalManager {
   constructor(
     private readonly konvaAnimal: Image, 
     private readonly konvaAnimalDrop: Image,
     private readonly onDropSuccess:Function,
-    htmlImages: AnimalImageElements['images'],
-
+    imageOrigin: HTMLImageElement,
+    imageGlow: HTMLImageElement,
     ) {
     
       this.cacheAndDraw(this.konvaAnimal);
@@ -25,9 +26,9 @@ export default class AnimalManager {
     konvaAnimal.on('dragend', this.onDragEnd.bind(this));
     // make animal glow on mouseover
     // Меняет курсор на указатель (CursorManager.setPointCursor();).
-    konvaAnimal.on('mouseover', this.onMouseOver.bind(this, htmlImages.glow));
+    konvaAnimal.on('mouseover', this.onMouseOver.bind(this, imageOrigin));
     // return animal on mouseout
-    konvaAnimal.on('mouseout', this.onMouseOut.bind(this,htmlImages.origin));
+    konvaAnimal.on('mouseout', this.onMouseOut.bind(this, imageGlow));
     // Проверяет, находится ли объект в нужном месте (isNearOutline).
     konvaAnimal.on('dragmove', this.onDragMove.bind(this));
   }

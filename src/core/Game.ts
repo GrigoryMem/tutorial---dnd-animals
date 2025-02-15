@@ -3,11 +3,8 @@ import { Stage } from 'konva/lib/Stage';
 import { Layer } from 'konva/lib/Layer';
 import { AnimalWithImages, AnimalsWithImages } from '../types/data';
 import { Image } from 'konva/lib/shapes/Image';
-import CursorManager from '../helpers/cursorManager';
-import AnimalManager from './animalManager';
-// import cursorManager from '../helpers/cursorManager';
-// import cursorManager from '../helpers/cursorManager';
-// import { CursorManager } from '../helpers/cursorManager'
+import AnimalManager from './AnimalManager';
+
 // Game управляет сценой и животными.
 export default class Game {
   private score = 0;
@@ -49,7 +46,8 @@ export default class Game {
           konvaAnimal, 
           konvaAnimalDrop,
           this.onChangeScore.bind(this),
-          animalData.images,
+          animalData.images.origin,
+          animalData.images.glow,
          );
 
         animalDropLayer.add(konvaAnimalDrop);
