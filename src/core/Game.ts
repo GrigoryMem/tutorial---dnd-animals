@@ -4,9 +4,10 @@ import { Layer } from 'konva/lib/Layer';
 import { AnimalWithImages, AnimalsWithImages } from '../types/data';
 import { Image } from 'konva/lib/shapes/Image';
 import AnimalManager from './AnimalManager';
+import AnimalEventObserver, { EAnimalEvents } from '../types/AnimalEventObserver';
 
 // Game управляет сценой и животными.
-export default class Game {
+export default class Game implements AnimalEventObserver {
   private score = 0;
   constructor(
     private readonly konvaFactory: KonvaFactory,
@@ -60,5 +61,11 @@ export default class Game {
       return
     }
     alert('You win! Enjoy the game!');  
+  }
+
+  update(eventType: EAnimalEvents, data?:any):void {
+    if(eventType === EAnimalEvents.DRAG_END && data?.success) {
+      this.onChangeScore()
+    }
   }
 }
