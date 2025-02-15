@@ -86,8 +86,10 @@ export default class AnimalManager {
   }
 
   cacheAndDraw(image: Image) {
+    const width = image.width()/2; 
       image.cache({
         pixelRatio: 3,
+        width,
       }); // Запоминает картинку (делает её "фото")
       image.drawHitFromCache(); // Создаёт хитбокс(четкие границы) на основе "фото"
 // cache() запоминает изображение, чтобы не перерисовывать его каждый раз.

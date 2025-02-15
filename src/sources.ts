@@ -6,6 +6,13 @@ const dataBackground:{src: string, width: number, height: number} = {
   height: 530
 }
 
+const soundsData = {
+  'pop-up-on':'liagushka.mp3',
+  'pop-up-off':'mouses.mp3',
+  'pop-down':'guse.mp3',
+  win:'horse.mp3'
+}
+
 const dataAnimals:AnimalsData = {
   ant:{
     src:'Ant.png',
@@ -49,4 +56,4 @@ const dataAnimals:AnimalsData = {
 }
 
 
-export {dataBackground, dataAnimals}
+export {dataBackground, dataAnimals,soundsData}
