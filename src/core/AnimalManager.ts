@@ -14,6 +14,8 @@ export default class AnimalManager {
     htmlImages: AnimalImageElements['images'],
 
     ) {
+    
+      this.cacheAndDraw(this.konvaAnimal);
       // Перетаскиваемое изображение выводится наверх, чтобы быть выше других слоев.
     konvaAnimal.on('dragstart',this.onDragStart.bind(this));
     /*
@@ -54,11 +56,13 @@ export default class AnimalManager {
   onMouseOver (imageGlow: HTMLImageElement):void {
     this.konvaAnimal.image(imageGlow);
     // document.body.style.cursor = 'pointer';
+    this.cacheAndDraw(this.konvaAnimal);
     CursorManager.setPointCursor();
     }
   onMouseOut (imageOrigin: HTMLImageElement):void {
    
       this.konvaAnimal.image(imageOrigin);
+      this.cacheAndDraw(this.konvaAnimal);
       // document.body.style.cursor = 'default';
       CursorManager.setDefaultCursor();
     
@@ -79,5 +83,14 @@ export default class AnimalManager {
 
     return ax > o.x() - 20 && ax < o.x() + 20 && ay > o.y() - 20 && ay < o.y() + 20
     
+  }
+
+  cacheAndDraw(image: Image) {
+      image.cache({
+        pixelRatio: 3,
+      }); // Запоминает картинку (делает её "фото")
+      image.drawHitFromCache(); // Создаёт хитбокс(четкие границы) на основе "фото"
+// cache() запоминает изображение, чтобы не перерисовывать его каждый раз.
+// drawHitFromCache() делает хитбокс четким, чтобы Konva быстрее понимал, когда мышь касается изображения.
   }
 }

@@ -12,6 +12,7 @@ class CursorManager {
   setGrabbingCursor():void {
     this.element.style.cursor = 'grabbing';
   }
+ 
 }
 
 
