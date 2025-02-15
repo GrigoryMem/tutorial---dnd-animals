@@ -8,7 +8,7 @@ import AnimalManager from './animalManager';
 // import cursorManager from '../helpers/cursorManager';
 // import cursorManager from '../helpers/cursorManager';
 // import { CursorManager } from '../helpers/cursorManager'
-
+// Game управляет сценой и животными.
 export default class Game {
   private score = 0;
   constructor(

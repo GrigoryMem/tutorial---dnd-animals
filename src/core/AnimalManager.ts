@@ -4,6 +4,8 @@ import { AnimalImageElements } from "../types/image";
 // По сути, код делает так, чтобы пользователь перетаскивал животное 
 // в правильную зону, а при наведении
 //  и уходе менялись изображения (например, светящийся эффект).
+// AnimalManager контролирует движение, 
+//проверяет правильное размещение и управляет курсором.
 export default class AnimalManager {
   constructor(
     private readonly konvaAnimal: Image, 
@@ -28,11 +30,11 @@ export default class AnimalManager {
     konvaAnimal.on('dragmove', this.onDragMove.bind(this));
   }
 
-  onDragStart () {
+  onDragStart ():void {
     this.konvaAnimal.moveToTop();
   }
 
-  onDragEnd () {
+  onDragEnd ():void {
        
     if (!this.isNearOutline(this.konvaAnimal, this.konvaAnimalDrop)) {
       return
