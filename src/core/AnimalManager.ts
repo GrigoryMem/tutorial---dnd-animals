@@ -35,26 +35,35 @@ export default class AnimalManager implements AnimalEventSubject {
     // Проверяет, находится ли объект в нужном месте (isNearOutline).
     konvaAnimal.on('dragmove', this.onDragMove.bind(this));
   }
-
+  // Когда пользователь начинает тянуть животное
   onDragStart ():void {
     this.konvaAnimal.moveToTop();
   }
-
+  // Когда отпускает (onDragEnd()) → проверяется,
+  //  попало ли животное в нужное место (isNearOutline()).
   onDragEnd ():void {
-       
+    // Когда животное отпускается, AnimalManager проверяет, 
+    // находится ли оно рядом с нужным местом (isNearOutline()).   
     if (!this.isNearOutline(this.konvaAnimal, this.konvaAnimalDrop)) {
       return
     }
+    // Если животное попало в нужную зону:
+    // Оно фиксируется в правильном месте.
     this.konvaAnimal.position({
         x:  this.konvaAnimalDrop.x(),
         y:  this.konvaAnimalDrop.y(),
       });
       // прекратить перетаскивание
+      // Перестает быть перетаскиваемым.
       this.konvaAnimal.draggable(false);
+      // Отправляется событие EAnimalEvents.DRAG_END 
+      // всем подписчикам через notifyObservers().
     // при успешном попадании в паз
+    // DRAG_END - событие,  "пользователь отпустил объект"
+    // data.success — указывает, правильно ли размещено животное
       this.notifyObservers(EAnimalEvents.DRAG_END,{success:true})
   
-      
+      // Если нет → уведомление отправляется без success, или он равен false.
     }
   
 
@@ -72,7 +81,7 @@ export default class AnimalManager implements AnimalEventSubject {
       CursorManager.setDefaultCursor();
     
   }
-
+  // Когда пользователь перетаскивает животное
   onDragMove():void{
     // document.body.style.cursor = 'pointer';
     CursorManager.setGrabbingCursor();
@@ -80,7 +89,7 @@ export default class AnimalManager implements AnimalEventSubject {
   
 
   isNearOutline(animal: Image, animalDropImage: Image):boolean {
-    // Этот метод проверяет, близко ли перетащенное животное к нужному месту
+    // Этот метод проверяет, близко ли перетащенное животное к нужному месту(пазу)
     const a: Image = animal;
     const o: Image = animalDropImage;
     const ax: number = a.x();

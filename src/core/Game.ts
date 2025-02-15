@@ -13,6 +13,8 @@ export default class Game implements AnimalEventObserver {
     private readonly konvaFactory: KonvaFactory,
     private readonly animalsWithImages: AnimalsWithImages, 
 ) {
+  // Создаёт сцену и три слоя для фона, 
+  // животных и их "пазов" (куда их нужно поместить).
     // Создается сцена (stage) с заданными размерами.
     const stage:Stage = this.konvaFactory.createStage();
     // Создаются два слоя: background для
@@ -36,20 +38,23 @@ export default class Game implements AnimalEventObserver {
     //вычисляем score
     this.score = Object.keys(this.animalsWithImages).length
     // create draggable animals
+    
     for (let animalName in this.animalsWithImages) {
       // anonymous function to induce scope
-    
+    // Загружает изображения животных и их контуров.
         const   animalData:AnimalWithImages = this.animalsWithImages[animalName];
         const  konvaAnimal:Image = this.konvaFactory.createImage(animalData);
         const  konvaAnimalDrop:Image = this.konvaFactory.createDropImage(animalData);
-
+        // Создаёт для каждого животного объект AnimalManager, 
+        // который управляет перетаскиванием.
         const animalManager:AnimalManager = new AnimalManager(
           konvaAnimal, 
           konvaAnimalDrop,
           animalData.images.origin,
           animalData.images.glow,
          );
-          // почему подписка тут?
+        //  Наблюдатель подписывается на издателя (subscribe(this)).
+        //  Подписывается (subscribe()) на события от AnimalManager
          animalManager.subscribe(this)
 
         animalDropLayer.add(konvaAnimalDrop);
@@ -63,9 +68,12 @@ export default class Game implements AnimalEventObserver {
     }
     alert('You win! Enjoy the game!');  
   }
-
+  // Так как Game подписан на AnimalManager, 
+  // он получает это событие в своём методе update():
   update(eventType: EAnimalEvents, data?:any):void {
     if(eventType === EAnimalEvents.DRAG_END && data?.success) {
+      // Метод onChangeScore() уменьшает счётчик животных (this.score). Когда все животные правильно размещены 
+      // (this.score === 0), появляется сообщение "You win!".
       this.onChangeScore()
     }
   }
