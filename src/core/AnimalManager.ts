@@ -1,19 +1,23 @@
 import { Image } from "konva/lib/shapes/Image";
 import CursorManager from '../helpers/cursorManager';
+import { AnimalImageElements } from "../types/image";
 export default class AnimalManager {
   constructor(
     private readonly konvaAnimal: Image, 
-    private readonly konvaAnimalDrop: Image) {
-      konvaAnimal.on('dragstart',this.onDragStart.bind(this));
+    private readonly konvaAnimalDrop: Image,
+    htmlImages: AnimalImageElements['images'],
+
+    ) {
+    konvaAnimal.on('dragstart',this.onDragStart.bind(this));
     /*
      * check if animal is in the right spot and
      * snap into place if it is
      */
     konvaAnimal.on('dragend', this.onDragEnd.bind(this));
     // make animal glow on mouseover
-    konvaAnimal.on('mouseover', this.onMouseOver.bind(this));
+    konvaAnimal.on('mouseover', this.onMouseOver.bind(this, htmlImages.glow));
     // return animal on mouseout
-    konvaAnimal.on('mouseout', this.onMouseOut.bind(this));
+    konvaAnimal.on('mouseout', this.onMouseOut.bind(this,htmlImages.origin));
     konvaAnimal.on('dragmove', this.onDragMove.bind(this));
   }
 
