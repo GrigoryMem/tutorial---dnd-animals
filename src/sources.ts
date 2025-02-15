@@ -10,7 +10,7 @@ const soundsData = {
   'pop-up-on':'liagushka.mp3',
   'pop-up-off':'mouses.mp3',
   'pop-down':'guse.mp3',
-  win:'horse.mp3'
+   win:'horse.mp3'
 }
 
 const dataAnimals:AnimalsData = {

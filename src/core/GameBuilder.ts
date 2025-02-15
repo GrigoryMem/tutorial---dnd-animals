@@ -1,9 +1,10 @@
 import Game from './Game';
 import ImageLoaderService from '../services/imageLoaderService';
 import { AnimalPromiseImages } from '../types/image';
-import { AnimalsData, AnimalsWithImages, ImageData } from '../types/data';
+import { AnimalsData, AnimalsWithImages, ImageData, SoundsData } from '../types/data';
 import KonvaFactory from '../factories/konvaFactory';
 import CanvasSizeService from '../services/canvasSizeService';
+import AudioService from '../services/AudioService';
 
 export default class GameBuilder {
   private backgroundImage: Promise<HTMLImageElement> | null = null; 
@@ -11,12 +12,17 @@ export default class GameBuilder {
   private animalImages:AnimalPromiseImages  = {}
   constructor(
     private readonly imageLoaderService: ImageLoaderService,
+    private readonly audioService: AudioService,
     private readonly dataAnimals: AnimalsData
     
-  ) {
-
+  ) {}
+  // метод по загрузке звуковых эффектов - передаем набор звуковых дорожек
+  loadSounds(soundData: SoundsData):void {
+    for(const trackName in soundData) {
+      this.audioService.load(trackName, soundData[trackName]);
+    }
   }
-  
+
   loadBackground(dataBackground: ImageData): GameBuilder {
     this.backgroundImage =  this.imageLoaderService.load(
       dataBackground.src,
