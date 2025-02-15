@@ -1,13 +1,16 @@
 import { Image } from "konva/lib/shapes/Image";
 import CursorManager from '../helpers/cursorManager';
 import { AnimalImageElements } from "../types/image";
+import AnimalEventObserver, { AnimalEventSubject, EAnimalEvents } from "../types/AnimalEventObserver";
 // AnimalManager контролирует движение, 
 //проверяет правильное размещение и управляет курсором.
 // По сути, код делает так, чтобы пользователь перетаскивал животное 
 // в правильную зону, а при наведении
 //  и уходе менялись изображения (например, светящийся эффект).
 
-export default class AnimalManager {
+export default class AnimalManager implements AnimalEventSubject {
+  // обозначим массив наблюдателей:
+  private observers: AnimalEventObserver[] = [];
   constructor(
     private readonly konvaAnimal: Image, 
     private readonly konvaAnimalDrop: Image,
@@ -87,13 +90,31 @@ export default class AnimalManager {
   }
 
   cacheAndDraw(image: Image) {
-    const width = image.width()/2; 
+    // const width = image.width()/2; 
       image.cache({
         pixelRatio: 3,
-        width,
+        // width,
       }); // Запоминает картинку (делает её "фото")
       image.drawHitFromCache(); // Создаёт хитбокс(четкие границы) на основе "фото"
 // cache() запоминает изображение, чтобы не перерисовывать его каждый раз.
 // drawHitFromCache() делает хитбокс четким, чтобы Konva быстрее понимал, когда мышь касается изображения.
   }
+ // notifyObservers() - вызывает обратные вызовы наблюдателей, когда происходит изменение состояния.
+  notifyObservers(eventType: EAnimalEvents, data?: any): void {
+    
+  }
+  // подписка наблюдателй
+  subscribe(observer:AnimalEventObserver):void {
+    if(this.observers.includes(observer)) return;
+
+    this.observers.push(observer);
+  }
+  // отписка наблюдателей
+  unsubscribe(observer:AnimalEventObserver):void {
+    const observerIndex: number = this.observers.indexOf(observer);
+    if(observerIndex !== -1) {
+      this.observers.splice(observerIndex, 1);
+    }
+  }
+  
 }

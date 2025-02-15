@@ -4,7 +4,7 @@ export enum EAnimalEvents {
 }
 // наблюдатель типа Observer
 export default interface AnimalEventObserver {
-  update(eventType: EAnimalEvents, data?:any):void 
+  update(eventType: string, data?:any):void 
 }
 
 // объект наблюдения за событиями животных
