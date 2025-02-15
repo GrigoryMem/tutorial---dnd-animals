@@ -7,9 +7,9 @@ const dataBackground:{src: string, width: number, height: number} = {
 }
 
 const soundsData = {
-  'pop-up-on':'liagushka.mp3',
+  'pop-up-on':'guse.mp3',
   'pop-up-off':'mouses.mp3',
-  'pop-down':'guse.mp3',
+  'pop-down':'liagushka.mp3',
    win:'horse.mp3'
 }
 

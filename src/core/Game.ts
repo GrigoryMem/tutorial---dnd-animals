@@ -5,12 +5,14 @@ import { AnimalWithImages, AnimalsWithImages } from '../types/data';
 import { Image } from 'konva/lib/shapes/Image';
 import AnimalManager from './AnimalManager';
 import AnimalEventObserver, { EAnimalEvents } from '../types/AnimalEventObserver';
+import AudioService from '../services/AudioService';
 
 // Game управляет сценой и животными.
 export default class Game implements AnimalEventObserver {
   private score = 0;
   constructor(
     private readonly konvaFactory: KonvaFactory,
+    private readonly audioService: AudioService,
     private readonly animalsWithImages: AnimalsWithImages, 
 ) {
   // Создаёт сцену и три слоя для фона, 
@@ -56,6 +58,7 @@ export default class Game implements AnimalEventObserver {
         //  Наблюдатель подписывается на издателя (subscribe(this)).
         //  Подписывается (subscribe()) на события от AnimalManager
          animalManager.subscribe(this)
+         animalManager.subscribe(this.audioService);
 
         animalDropLayer.add(konvaAnimalDrop);
         animalLayer.add(konvaAnimal);

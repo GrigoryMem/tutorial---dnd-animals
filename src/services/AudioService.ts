@@ -1,10 +1,11 @@
 import { Howl } from "howler";
+import AnimalEventObserver, { EAnimalEvents } from "../types/AnimalEventObserver";
 
 type ISound = {
   [trackName: string]: Howl
 }
 // для работы со звуком
-export default class AudioService {
+export default class AudioService implements AnimalEventObserver{
   // создать объект звуков
   private sounds: ISound = {};
 
@@ -27,8 +28,21 @@ export default class AudioService {
     }
     // воспроизводим трек
     this.sounds[trackName].play();
+  }
 
-
+  update(eventType: EAnimalEvents, data?:any): void {
+    if(eventType === EAnimalEvents.DRAG_END && data?.success) {
+      // если закончили тащить успешно
+      this.play('pop-up-off');
+    } else if(eventType === EAnimalEvents.DRAG_END && 
+      data?.success ===false) {
+        // если закончили тащить неудачно
+        this.play('pop-down')
+        
+    } else if (eventType === EAnimalEvents.DRAG_START) {
+      // если начали тащить
+      this.play('pop-up-on')
+    }
   }
 
 }
