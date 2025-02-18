@@ -4,9 +4,11 @@ import ImageLoaderService from './services/imageLoaderService';
 import GameBuilder from './core/GameBuilder';
 import AudioService from './services/AudioService';
 
+const audioService = new AudioService('/sound/')
+
 const gameBuilder:GameBuilder = new GameBuilder(
   new ImageLoaderService(),
-  new AudioService('/sound/'), 
+  audioService, 
   dataAnimals);
 
 const game = await  gameBuilder
@@ -15,8 +17,23 @@ const game = await  gameBuilder
   .loadImageAnimals()
   .build()
 
+
+
+document.querySelector('#restart')?.addEventListener('click',(): void=>{
+  game.restart()
+})
+
+// Выключение/включение звука 
+// ?????
+document.querySelector('#mute')?.addEventListener('click', (e): void=>{
+  const isMute = audioService.toggleSound()
+  const button:HTMLButtonElement = e.target as HTMLButtonElement; //?
+  button.textContent = `Sound ${isMute ? 'Restart' : 'Mute'}`;
+})
+
+
 game.start()
-game.restart()
+
 game.onEndGame(()=>{
   setTimeout(()=>{
     alert('You win! Enjoy the game!')
