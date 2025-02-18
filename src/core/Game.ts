@@ -12,6 +12,7 @@ export default class Game implements AnimalEventObserver {
   private score = 0;
   private readonly animalDropLayer: Layer
   private readonly animalLayer: Layer
+  private endGameCallBack = (): void =>{}
   
   constructor(
     private readonly konvaFactory: KonvaFactory,
@@ -67,11 +68,16 @@ export default class Game implements AnimalEventObserver {
   }
 
   restart():void {
-    
+    // Удаляет все созданные слоя и животные. - очистка
+    this.animalDropLayer.destroyChildren();
+    this.animalLayer.destroyChildren();
+    // запуск игры 
+    this.start();
   }
 
-  onEndGame():void {
-
+  onEndGame(fn:()=>void):void {
+    // Подписывается на событие окончания игры.
+    this.endGameCallBack = fn
   }
 
   onChangeScore(): void {
@@ -79,11 +85,9 @@ export default class Game implements AnimalEventObserver {
       return
     }
     this.audioService.playWin();
-    setTimeout(()=>{
-      alert('You win! Enjoy the game!')
-    },0)
-    ;  
-  }
+//вызывается по окончании игры
+    this.endGameCallBack();
+}
   // Так как Game подписан на AnimalManager, 
   // он получает это событие в своём методе update():
   update(eventType: EAnimalEvents, data?:any):void {

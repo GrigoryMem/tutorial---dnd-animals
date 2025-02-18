@@ -18,7 +18,9 @@ const game = await  gameBuilder
 game.start()
 game.restart()
 game.onEndGame(()=>{
-  
+  setTimeout(()=>{
+    alert('You win! Enjoy the game!')
+  },0)
 })
 
 
