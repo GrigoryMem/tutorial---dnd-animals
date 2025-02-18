@@ -17,10 +17,11 @@ export default class GameBuilder {
     
   ) {}
   // метод по загрузке звуковых эффектов - передаем набор звуковых дорожек
-  loadSounds(soundData: SoundsData):void {
+  loadSounds(soundData: SoundsData): GameBuilder {
     for(const trackName in soundData) {
       this.audioService.load(trackName, soundData[trackName]);
     }
+    return this
   }
 
   loadBackground(dataBackground: ImageData): GameBuilder {

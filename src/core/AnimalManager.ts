@@ -38,6 +38,9 @@ export default class AnimalManager implements AnimalEventSubject {
   // Когда пользователь начинает тянуть животное
   onDragStart ():void {
     this.konvaAnimal.moveToTop();
+    // оповещаем все подсписчиков что началось перетескивание животного
+    this.notifyObservers(EAnimalEvents.DRAG_START)
+
   }
   // Когда отпускает (onDragEnd()) → проверяется,
   //  попало ли животное в нужное место (isNearOutline()).
@@ -45,6 +48,9 @@ export default class AnimalManager implements AnimalEventSubject {
     // Когда животное отпускается, AnimalManager проверяет, 
     // находится ли оно рядом с нужным местом (isNearOutline()).   
     if (!this.isNearOutline(this.konvaAnimal, this.konvaAnimalDrop)) {
+      // Если животное не попало в нужную зону: 
+      // передаем что событие не успешное
+      this.notifyObservers(EAnimalEvents.DRAG_END,{success:false})
       return
     }
     // Если животное попало в нужную зону:
@@ -56,6 +62,9 @@ export default class AnimalManager implements AnimalEventSubject {
       // прекратить перетаскивание
       // Перестает быть перетаскиваемым.
       this.konvaAnimal.draggable(false);
+      // отписываемся от всех событий
+      this.konvaAnimal.off(
+        'dragstart dragend mouseover')
       // Отправляется событие EAnimalEvents.DRAG_END 
       // всем подписчикам через notifyObservers().
     // при успешном попадании в паз

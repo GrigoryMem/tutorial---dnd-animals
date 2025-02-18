@@ -59,7 +59,7 @@ export default class Game implements AnimalEventObserver {
         //  Подписывается (subscribe()) на события от AnimalManager
          animalManager.subscribe(this)
          animalManager.subscribe(this.audioService);
-
+          // отрисовка
         animalDropLayer.add(konvaAnimalDrop);
         animalLayer.add(konvaAnimal);
      }
@@ -69,7 +69,11 @@ export default class Game implements AnimalEventObserver {
     if(--this.score!==0){
       return
     }
-    alert('You win! Enjoy the game!');  
+    this.audioService.playWin();
+    setTimeout(()=>{
+      alert('You win! Enjoy the game!')
+    },0)
+    ;  
   }
   // Так как Game подписан на AnimalManager, 
   // он получает это событие в своём методе update():

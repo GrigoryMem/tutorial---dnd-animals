@@ -37,12 +37,16 @@ export default class AudioService implements AnimalEventObserver{
     } else if(eventType === EAnimalEvents.DRAG_END && 
       data?.success ===false) {
         // если закончили тащить неудачно
-        this.play('pop-down')
+        this.play('pop-down',0.1)
         
     } else if (eventType === EAnimalEvents.DRAG_START) {
       // если начали тащить
-      this.play('pop-up-on')
+      this.play('pop-up-on',0.3)
     }
+  }
+
+  playWin(): void {
+    this.play('win',0.1);
   }
 
 }
