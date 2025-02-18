@@ -10,6 +10,9 @@ import AudioService from '../services/AudioService';
 // Game управляет сценой и животными.
 export default class Game implements AnimalEventObserver {
   private score = 0;
+  private readonly animalDropLayer: Layer
+  private readonly animalLayer: Layer
+  
   constructor(
     private readonly konvaFactory: KonvaFactory,
     private readonly audioService: AudioService,
@@ -22,47 +25,53 @@ export default class Game implements AnimalEventObserver {
     // Создаются два слоя: background для
     //  фона и animalLayer для животных и их контуров.
     const backgroundLayer:Layer = this.konvaFactory.createLayer();
-    const animalDropLayer:Layer = this.konvaFactory.createLayer();
-    const animalLayer:Layer = this.konvaFactory.createLayer();
+    this.animalDropLayer = this.konvaFactory.createLayer();
+    this.animalLayer = this.konvaFactory.createLayer();
     
     stage.add(backgroundLayer);
-    stage.add(animalDropLayer);
-    stage.add(animalLayer);
+    stage.add(this.animalDropLayer);
+    stage.add(this.animalLayer);
 
     backgroundLayer.add(this.konvaFactory.createBackgroundImage())
+  }
 
+  start():void {
+    // генерация животных
+   //вычисляем score
+   this.score = Object.keys(this.animalsWithImages).length
+   // create draggable animals
+   
+   for (let animalName in this.animalsWithImages) {
+     // anonymous function to induce scope
+   // Загружает изображения животных и их контуров.
+       const   animalData:AnimalWithImages = this.animalsWithImages[animalName];
+       const  konvaAnimal:Image = this.konvaFactory.createImage(animalData);
+       const  konvaAnimalDrop:Image = this.konvaFactory.createDropImage(animalData);
+       // Создаёт для каждого животного объект AnimalManager, 
+       // который управляет перетаскиванием.
+       const animalManager:AnimalManager = new AnimalManager(
+         konvaAnimal, 
+         konvaAnimalDrop,
+         animalData.images.origin,
+         animalData.images.glow,
+        );
+       //  Наблюдатель подписывается на издателя (subscribe(this)).
+       //  Подписывается (subscribe()) на события от AnimalManager
+        animalManager.subscribe(this)
+        animalManager.subscribe(this.audioService);
+         // отрисовка
+       this.animalDropLayer.add(konvaAnimalDrop);
+       this.animalLayer.add(konvaAnimal);
+    }
 
+  }
 
-    // image positions
-    // Определяются позиции животных 
-    // (animals) и их контуров (outlines).
-  
-    //вычисляем score
-    this.score = Object.keys(this.animalsWithImages).length
-    // create draggable animals
+  restart():void {
     
-    for (let animalName in this.animalsWithImages) {
-      // anonymous function to induce scope
-    // Загружает изображения животных и их контуров.
-        const   animalData:AnimalWithImages = this.animalsWithImages[animalName];
-        const  konvaAnimal:Image = this.konvaFactory.createImage(animalData);
-        const  konvaAnimalDrop:Image = this.konvaFactory.createDropImage(animalData);
-        // Создаёт для каждого животного объект AnimalManager, 
-        // который управляет перетаскиванием.
-        const animalManager:AnimalManager = new AnimalManager(
-          konvaAnimal, 
-          konvaAnimalDrop,
-          animalData.images.origin,
-          animalData.images.glow,
-         );
-        //  Наблюдатель подписывается на издателя (subscribe(this)).
-        //  Подписывается (subscribe()) на события от AnimalManager
-         animalManager.subscribe(this)
-         animalManager.subscribe(this.audioService);
-          // отрисовка
-        animalDropLayer.add(konvaAnimalDrop);
-        animalLayer.add(konvaAnimal);
-     }
+  }
+
+  onEndGame():void {
+
   }
 
   onChangeScore(): void {

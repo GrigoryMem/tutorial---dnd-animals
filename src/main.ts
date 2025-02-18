@@ -15,7 +15,11 @@ const game = await  gameBuilder
   .loadImageAnimals()
   .build()
 
-
+game.start()
+game.restart()
+game.onEndGame(()=>{
+  
+})
 
 
   
