@@ -8,8 +8,18 @@ type ISound = {
 export default class AudioService implements AnimalEventObserver{
   // создать объект звуков
   private sounds: ISound = {};
+  private isMute: boolean = false;
+
 
   constructor(private readonly folder: string){}
+
+  toggleSound(): boolean {
+    // инвертирование значения:
+    this.isMute = !this.isMute
+
+    return this.isMute
+  }
+
   load(trackName: string, fileName: string):void  {
     // получаем путь к файлу
     const src: string = this.folder + fileName;
@@ -20,7 +30,7 @@ export default class AudioService implements AnimalEventObserver{
 
   play(trackName: string, volume?: number):void {
     // если трека нет ничего не возвращаем
-    if(!this.sounds[trackName]) return
+    if(!this.sounds[trackName] || this.isMute) return
     // если передан звук
     if(volume) {
       //  передаем в howl метод volume значение громкости volume - метод громкости
