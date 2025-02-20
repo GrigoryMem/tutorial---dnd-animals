@@ -14,7 +14,7 @@ export default class AudioService implements AnimalEventObserver{
   constructor(private readonly folder: string){}
 
   toggleSound(): boolean {
-    // инвертирование значения:
+    // инвертирование значения: для переключения
     this.isMute = !this.isMute
 
     return this.isMute
@@ -29,7 +29,7 @@ export default class AudioService implements AnimalEventObserver{
   }
 
   play(trackName: string, volume?: number):void {
-    // если трека нет ничего не возвращаем
+    // если трека нет ничего не возвращаем или звука нет
     if(!this.sounds[trackName] || this.isMute) return
     // если передан звук
     if(volume) {

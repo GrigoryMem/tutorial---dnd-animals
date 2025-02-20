@@ -25,7 +25,7 @@ document.querySelector('#restart')?.addEventListener('click',(): void=>{
 
 // Выключение/включение звука 
 // ?????
-document.querySelector('#mute')?.addEventListener('click', (e): void=>{
+document.querySelector('#mute')?.addEventListener('click', (e: Event): void=>{
   const isMute = audioService.toggleSound()
   const button:HTMLButtonElement = e.target as HTMLButtonElement; //?
   button.textContent = `Sound ${isMute ? 'Off' : 'On'}`;

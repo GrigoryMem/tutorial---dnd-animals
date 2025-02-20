@@ -12,6 +12,7 @@ export default class Game implements AnimalEventObserver {
   private score = 0;
   private readonly animalDropLayer: Layer
   private readonly animalLayer: Layer
+  //функция будет пустой во избежании ошибки 
   private endGameCallBack = (): void =>{}
   
   constructor(
@@ -38,7 +39,7 @@ export default class Game implements AnimalEventObserver {
 
   start():void {
     // генерация животных
-   //вычисляем score
+   //вычисляем score на основе количества животных
    this.score = Object.keys(this.animalsWithImages).length
    // create draggable animals
    
@@ -71,7 +72,7 @@ export default class Game implements AnimalEventObserver {
     // Удаляет все созданные слоя и животные. - очистка
     this.animalDropLayer.destroyChildren();
     this.animalLayer.destroyChildren();
-    // запуск игры 
+    // запуск игры после очистки:
     this.start();
   }
 
