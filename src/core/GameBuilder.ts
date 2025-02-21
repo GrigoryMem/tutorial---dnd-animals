@@ -2,7 +2,7 @@ import Game from './Game';
 import ImageLoaderService from '../services/imageLoaderService';
 import { AnimalPromiseImages } from '../types/image';
 import { AnimalsData, AnimalsWithImages, ImageData, SoundsData } from '../types/data';
-import KonvaFactory from '../factories/konvaFactory';
+import KonvaFactory from '../factories/KonvaFactory';
 import CanvasSizeService from '../services/canvasSizeService';
 import AudioService from '../services/AudioService';
 

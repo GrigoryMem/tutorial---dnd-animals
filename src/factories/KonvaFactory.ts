@@ -1,7 +1,7 @@
 import Konva from 'konva';
 import { Layer } from 'konva/lib/Layer';
 import { Stage } from 'konva/lib/Stage';
-import { AnimalWithImage, AnimalWithImages, AnimalsWithImages } from '../types/data'; 
+import { AnimalWithImages } from '../types/data'; 
 import { Image } from 'konva/lib/shapes/Image';
 import { randomInterval } from '../helpers/randominterval';
 import CanvasSizeService from '../services/canvasSizeService';

@@ -1,6 +1,6 @@
 import { Image } from "konva/lib/shapes/Image";
 import CursorManager from '../helpers/cursorManager';
-import { AnimalImageElements } from "../types/image";
+
 import AnimalEventObserver, { AnimalEventSubject, EAnimalEvents } from "../types/AnimalEventObserver";
 // AnimalManager контролирует движение, 
 //проверяет правильное размещение и управляет курсором.
