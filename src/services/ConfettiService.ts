@@ -1,4 +1,6 @@
-import confetti, {Options} from 'canvas-confetti'
+import confetti, {Options} from 'canvas-confetti';
+
+// import other necessary modules or classes here
 import { randomInterval } from '../helpers/randominterval';
 
 export default class ConfettiService {
