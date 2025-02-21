@@ -6,7 +6,8 @@ import { randomInterval } from '../helpers/randominterval';
 export default class ConfettiService {
     private readonly options: Options //Опции конфетти
     // идентификатор тайминга как часть conffeti service
-    private timerId: number = 0; // Таймер для интервала анимации
+    // private timerId: number = 0; // Таймер для интервала анимации
+    private timerId: ReturnType<typeof setInterval> | 0 = 0;
     constructor(options: Partial<Options>){ 
       //принимает объект, где все свойства Options необязательны.
         const  defaultOptions:Partial<Options> ={
