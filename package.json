@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
     "@types/howler": "^2.2.12",
     "prettier": "3.4.2",
     "typescript": "~5.6.2",
