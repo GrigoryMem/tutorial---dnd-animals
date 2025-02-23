@@ -4,9 +4,12 @@ import ImageLoaderService from './services/imageLoaderService';
 import GameBuilder from './core/GameBuilder';
 import AudioService from './services/AudioService';
 import ConfettiService from './services/ConfettiService';
+import SnowService from './services/SnowService';
+
+// Константа BASE_URL используется для загрузки изображений и звуков в dev режиме.
 const BASE_URL:string = import.meta.env.BASE_URL; 
 
-const audioService = new AudioService(`${BASE_URL}/sound/`) // для dev режима слеша после фигурной скобки не нужно
+const audioService = new AudioService(`${BASE_URL}sound/`) // для dev режима слеша после фигурной скобки не нужно
 // Использует gameBuilder для загрузки звуков, фона и изображений животных.
 const gameBuilder:GameBuilder = new GameBuilder(
   new ImageLoaderService(),
@@ -47,6 +50,13 @@ const gameBuilder:GameBuilder = new GameBuilder(
     setTimeout(()=>{
       alert('You win! Enjoy the game!')
     },0)
+  })
+
+  // событие - появление снега
+  const snowService = new SnowService({});
+
+  document.querySelector('#snow')?.addEventListener('click', (): void=>{
+    snowService.start();
   })
 
 })()
