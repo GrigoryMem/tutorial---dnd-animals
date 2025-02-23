@@ -35,7 +35,7 @@ const gameBuilder:GameBuilder = new GameBuilder(
   document.querySelector('#mute')?.addEventListener('click', (e: Event): void=>{
     const isMute = audioService.toggleSound()
     const button:HTMLButtonElement = e.target as HTMLButtonElement; //?
-    button.textContent = `Sound ${isMute ? 'Off' : 'On'}`;
+    button.textContent = `Sound ${isMute ? '🔇' : '🔊'}`;
   })
 
   const confettiService: ConfettiService = new ConfettiService({});
@@ -48,7 +48,7 @@ const gameBuilder:GameBuilder = new GameBuilder(
   // Через 5 секунд вручную останавливаем.
     confettiService.start(5);
     setTimeout(()=>{
-      alert('You win! Enjoy the game!')
+      alert('You win! Enjoy the win!')
     },0)
   })
 
